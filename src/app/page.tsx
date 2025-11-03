@@ -4,7 +4,6 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import Lenis from '@studio-freight/lenis';
 import { ChevronDown, Menu, X, ArrowUp, Sun, Moon } from 'lucide-react';
 
 export default function Home() {
@@ -15,26 +14,15 @@ export default function Home() {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smooth: true,
-    });
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-
     const handleScroll = () => setShowBackToTop(window.scrollY > 500);
     window.addEventListener('scroll', handleScroll);
-
+  
     const saved = localStorage.getItem('vyvabrill-theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const initialDark = saved === 'dark' || (!saved && prefersDark);
     setIsDark(initialDark);
     if (initialDark) document.documentElement.classList.add('dark');
-
+  
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
